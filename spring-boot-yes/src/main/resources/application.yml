@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring-boot-yes
+  datasource:
+    url: jdbc:mysql://localhost:3310/content?useUnicode=true&useSSL=false&zeroDateTimeBehavior=round&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: content
+    password: content
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
