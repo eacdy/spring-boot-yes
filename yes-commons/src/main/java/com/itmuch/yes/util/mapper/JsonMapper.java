@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * 简单封装Jackson，实现JSON String<->Java Object转换的Mapper.
+ * 简单封装Jackson，实现JSON String - Java Object转换的Mapper.
  * 可以直接使用公共示例JsonMapper.INSTANCE, 也可以使用不同的builder函数创建实例，封装不同的输出风格,
  * 不要使用GSON, 在对象稍大时非常缓慢.
  * 注意：需要参考本模块的POM文件，显式引用jackson.
@@ -47,6 +47,8 @@ public class JsonMapper {
 
     /**
      * 创建只输出非Null的属性到Json字符串的Mapper.
+     *
+     * @return 只输出非Null的属性到Json字符串的Mapper
      */
     public static JsonMapper nonNullMapper() {
         return new JsonMapper(Include.NON_NULL);
@@ -55,6 +57,8 @@ public class JsonMapper {
     /**
      * 创建只输出非Null且非Empty(如List.isEmpty)的属性到Json字符串的Mapper.
      * 注意，要小心使用, 特别留意empty的情况.
+     *
+     * @return 只输出非Null且非Empty(如List.isEmpty)的属性到Json字符串的Mapper
      */
     public static JsonMapper nonEmptyMapper() {
         return new JsonMapper(Include.NON_EMPTY);
@@ -62,6 +66,8 @@ public class JsonMapper {
 
     /**
      * 默认的全部输出的Mapper, 区别于INSTANCE，可以做进一步的配置
+     *
+     * @return defaultMapper
      */
     public static JsonMapper defaultMapper() {
         return new JsonMapper();
@@ -69,6 +75,9 @@ public class JsonMapper {
 
     /**
      * Object可以是POJO，也可以是Collection或数组。 如果对象为Null, 返回"null". 如果集合为空集合, 返回"[]".
+     *
+     * @param object obj
+     * @return json字符串
      */
     public String toJson(Object object) {
 
@@ -81,12 +90,14 @@ public class JsonMapper {
     }
 
     /**
-     * 反序列化POJO或简单Collection如List<String>.
-     * <p>
+     * 反序列化POJO或简单Collection如List
      * 如果JSON字符串为Null或"null"字符串, 返回Null. 如果JSON字符串为"[]", 返回空集合.
-     * <p>
-     * 如需反序列化复杂Collection如List<MyBean>, 请使用fromJson(String, JavaType)
+     * 如需反序列化复杂Collection, 如 List&lt;MyBean&gt;, 请使用fromJson(String, JavaType)
      *
+     * @param jsonString json字符串
+     * @param clazz      类
+     * @param <T>        T
+     * @return T
      * @see #fromJson(String, JavaType)
      */
     public <T> T fromJson(String jsonString, Class<T> clazz) {
@@ -103,13 +114,18 @@ public class JsonMapper {
     }
 
     /**
-     * 反序列化复杂Collection如List<Bean>, contructCollectionType()或contructMapType()构造类型, 然后调用本函数.
+     * 反序列化复杂Collection
+     * 如List&lt;Bean&gt;, contructCollectionType()或contructMapType()构造类型, 然后调用本函数.
+     *
+     * @param jsonString json字符串
+     * @param javaType   java类型
+     * @param <T>        T
+     * @return T
      */
     public <T> T fromJson(String jsonString, JavaType javaType) {
         if (StringUtils.isBlank(jsonString)) {
             return null;
         }
-
         try {
             return (T) mapper.readValue(jsonString, javaType);
         } catch (IOException e) {
@@ -120,6 +136,10 @@ public class JsonMapper {
 
     /**
      * 构造Collection类型.
+     *
+     * @param collectionClass collectionClass
+     * @param elementClass    elementClass
+     * @return JavaType
      */
     public JavaType buildCollectionType(Class<? extends Collection> collectionClass, Class<?> elementClass) {
         return mapper.getTypeFactory().constructCollectionType(collectionClass, elementClass);
@@ -127,6 +147,11 @@ public class JsonMapper {
 
     /**
      * 构造Map类型.
+     *
+     * @param mapClass   mapClass
+     * @param keyClass   keyClass
+     * @param valueClass valueClass
+     * @return JavaType
      */
     public JavaType buildMapType(Class<? extends Map> mapClass, Class<?> keyClass, Class<?> valueClass) {
         return mapper.getTypeFactory().constructMapType(mapClass, keyClass, valueClass);
@@ -134,6 +159,9 @@ public class JsonMapper {
 
     /**
      * 当JSON里只含有Bean的部分属性時，更新一個已存在Bean，只覆盖該部分的属性.
+     *
+     * @param jsonString json字符串
+     * @param object     对象
      */
     public void update(String jsonString, Object object) {
         try {
@@ -146,7 +174,11 @@ public class JsonMapper {
     }
 
     /**
-     * 輸出JSONP格式數據.
+     * 输出JSONP格式数据
+     *
+     * @param functionName 函数名称
+     * @param object       对象
+     * @return jsonp
      */
     public String toJsonP(String functionName, Object object) {
         return toJson(new JSONPObject(functionName, object));
@@ -162,6 +194,8 @@ public class JsonMapper {
 
     /**
      * 取出Mapper做进一步的设置或使用其他序列化API.
+     *
+     * @return ObjectMapper
      */
     public ObjectMapper getMapper() {
         return mapper;
