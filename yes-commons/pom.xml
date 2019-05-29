@@ -7,6 +7,9 @@
     <artifactId>yes-commons</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>YES Commons</name>
+    <description>Spring Boot YES commons.</description>
+    <url>https://github.com/eacdy/spring-boot-yes</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,6 +17,28 @@
         <java.version>1.8</java.version>
         <springfox-version>2.7.0</springfox-version>
     </properties>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>itmuch</name>
+            <email>eacdy0000@126.com</email>
+            <url>https://github.com/eacdy</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/eacdy/spring-boot-yes</url>
+        <connection>https://github.com/eacdy/spring-boot-yes.git</connection>
+        <developerConnection>https://github.com/eacdy</developerConnection>
+    </scm>
+
 
     <dependencies>
         <dependency>
@@ -50,6 +75,17 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <profiles>
         <profile>
